@@ -13,13 +13,13 @@ const app = express();
 app.use(cors())
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({limit: '50mb',extended : true}));
-// app.use(
-//   cors({
-//     origin: 'http://localhost:5173', // Allow requests from this origin
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-//     allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
-//   })
-// );
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+  })
+);
 
 app.options('*', cors()); // Preflight request handler
 
