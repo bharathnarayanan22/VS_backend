@@ -11,6 +11,14 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors())
+// Example middleware for CORS
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with specific origins as needed
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({limit: '50mb',extended : true}));
 // app.use(
@@ -251,90 +259,6 @@ module.exports = Party;
 // Create a model for party enrollment
 const PartyModel = mongoose.model("Party", partySchema);
 
-// Route to handle party enrollment
-// app.post("/enroll-party", async (req, res) => {
-//   try {
-//     const { partyName, partyLeader, partySymbol } = req.body;
-
-//     // Create a new party enrollment document
-//     const newParty = new PartyModel({
-//       partyName,
-//       partyLeader,
-//       partySymbol,
-//     });
-
-//     // Save the new party enrollment document to the database
-//     await newParty.save();
-
-//     res.json({ message: "Party enrolled successfully" });
-//   } catch (error) {
-//     console.error("Error enrolling party:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-
-
-// app.get('/parties', async (req, res) => {
-//   try {
-//     const parties = await PartyModel.find();
-//     res.json({ parties });
-//   } catch (error) {
-//     console.error('Error fetching parties:', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-// // Edit party details
-// app.put('/parties/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { partyName, partyLeader, partySymbol } = req.body;
-//   try {
-//     const updatedParty = await PartyModel.findByIdAndUpdate(id, { partyName, partyLeader, partySymbol }, { new: true });
-//     res.json({ party: updatedParty });
-//   } catch (error) {
-//     console.error('Error updating party:', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-
-// // Delete party
-// app.delete("/parties/:partyId", async (req, res) => {
-//   const partyId = req.params.partyId;
-//   try {
-//     // Find the party by ID and delete it from the database
-//     await PartyModel.findByIdAndDelete(partyId);
-//     res.status(200).json({ message: "Party deleted successfully" });
-//   } catch (error) {
-//     console.error("Error deleting party:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-
-// // PUT endpoint to update a party by ID
-// app.put("/parties/:partyId", async (req, res) => {
-//   const partyId = req.params.partyId;
-//   const { partyName, partyLeader, partySymbol } = req.body;
-
-//   try {
-//     // Find the party by ID and update its details
-//     const updatedParty = await PartyModel.findByIdAndUpdate(partyId, {
-//       partyName,
-//       partyLeader,
-//       partySymbol
-//     }, { new: true }); // Set { new: true } to return the updated party document
-
-//     if (updatedParty) {
-//       res.status(200).json({ message: "Party updated successfully", party: updatedParty });
-//     } else {
-//       res.status(404).json({ message: "Party not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error updating party:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-
-
 
 // POST endpoint to enroll a new party
 app.post("/enroll-party", async (req, res) => {
@@ -432,22 +356,6 @@ app.delete("/parties/:partyId", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
-mongoose.connect('mongodb://localhost:27017/yourDatabaseName', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    app.listen(5000, () => {
-      console.log('Server is running on port 5000');
-    });
-  })
-  .catch(error => {
-    console.error('Database connection error:', error);
-  });
-
-
-// Route to vote for a party
-
-// Example route for voting
-
 
 
 app.post('/voters/vote/:partyId', async (req, res) => {
