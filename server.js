@@ -25,7 +25,7 @@ app.use(
 app.use(fileUpload({ useTempFiles: true }));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/VotingSystem', {
+mongoose.connect('mongodb+srv://Bharath_Narayanan:bharath22@cluster0.16bef1g.mongodb.net/VotingSystem', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
